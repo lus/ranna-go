@@ -7,4 +7,88 @@ With this library I aim at providing a generic client for ranna **plus** the acc
 
 ## Usage
 
-> TODO
+Download the library:
+
+```
+go get github.com/lus/ranna-go
+```
+
+### Code execution
+
+```go
+package main
+
+import "github.com/lus/ranna-go/ranna"
+
+func main() {
+    client := ranna.NewClient("https://public.ranna.zekro.de")
+    
+    // Retrieve all registered language specifications
+    specs, err := client.Specs()
+    if err != nil {
+        panic(err)
+    }
+    // specs now contains a map of language specifications
+
+    // Execute Go code
+    code := `
+        package main
+
+        import "fmt"
+
+        func main() {
+            fmt.Println("Hello, ranna!")
+        }
+    `
+    request := &ranna.ExecutionRequest{
+        Language:    "go",
+        Code:        code,
+        Arguments:   []string{},
+        Environment: map[string]string{},
+    }
+    result, err := ranna.Execute(request)
+    if err != nil {
+        panic(err)
+    }
+    // result contains stdout, stderr and the execution duration
+}
+```
+
+### Snippets
+
+```go
+package main
+
+import "github.com/lus/ranna-go/snippets"
+
+func main() {
+    client := snippets.NewClient("https://snippets.ranna.zekro.de")
+
+    // Create a Go code sippet
+    code := `
+        package main
+
+        import "fmt"
+
+        func main() {
+            fmt.Println("Hello, ranna!")
+        }
+    `
+    snippet := &snippets.Snippet{
+        Language: "go",
+        Code:     code,
+    }
+    created, err := snippets.Create(snippet)
+    if err != nil {
+        panic(err)
+    }
+    // created contains the created snippet
+
+    // Retrieve a code snippet
+    retrieved, err := snippets.Snippet("snippet")
+    if err != nil {
+        panic(err)
+    }
+    // retrieves contains the retrieved snippet
+}
+```
