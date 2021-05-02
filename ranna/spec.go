@@ -7,7 +7,7 @@ import (
 )
 
 // Specs represents a map of specs
-type Specs map[string]Spec
+type Specs map[string]*Spec
 
 // Spec represents a language execution spec
 type Spec struct {
@@ -18,7 +18,7 @@ type Spec struct {
 }
 
 // Specs requests the specified specs from the ranna instance
-func (client *Client) Specs() (Specs, error) {
+func (client *Client) Specs() (*Specs, error) {
 	request := fasthttp.AcquireRequest()
 	defer fasthttp.ReleaseRequest(request)
 
@@ -39,5 +39,5 @@ func (client *Client) Specs() (Specs, error) {
 	if err := json.Unmarshal(response.Body(), specs); err != nil {
 		return nil, err
 	}
-	return *specs, nil
+	return specs, nil
 }
