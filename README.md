@@ -46,7 +46,7 @@ func main() {
         Arguments:   []string{},
         Environment: map[string]string{},
     }
-    result, err := ranna.Execute(request)
+    result, err := client.Execute(request)
     if err != nil {
         panic(err)
     }
@@ -78,17 +78,17 @@ func main() {
         Language: "go",
         Code:     code,
     }
-    created, err := snippets.Create(snippet)
+    created, err := client.Create(snippet)
     if err != nil {
         panic(err)
     }
     // created contains the created snippet
 
     // Retrieve a code snippet
-    retrieved, err := snippets.Snippet("snippet")
+    retrieved, err := client.Snippet("snippet")
     if err != nil {
         panic(err)
     }
-    // retrieves contains the retrieved snippet
+    // retrieved contains the retrieved snippet
 }
 ```
